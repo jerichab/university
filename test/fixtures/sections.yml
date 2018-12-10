@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  semester: MyString
+  number: 1
+  course: one
+  room: MyString
+
+two:
+  semester: MyString
+  number: 1
+  course: two
+  room: MyString
