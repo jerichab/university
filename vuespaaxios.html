@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>A very simple SPA in Vue and Axios</title>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="Itemlist">
+    <button v-on:click="courses_selected=true,students_selected=false, sections_selected=false">Courses</button>
+    <button v-on:click="courses_selected=false,students_selected=true, sections_selected=false">Students</button>
+    <button v-on:click="courses_selected=false, students_selected=false, sections_selected=true">Sections</button>
+    <ul>
+    <span v-if="courses_selected">
+      <div v-for="course in courses">
+	<li>Course: {{course.name}} Course Dep/Number: {{course.department}}{{course.number}} Credits: {{course.credits}} </li>
+      </div>
+    </span>
+    <span v-if="students_selected">
+      <div v-for="student in students">
+        <div v-for="section in sections">
+	  <div v-if="student.section_id === section_id">
+	    Section: {{section.number}}
+	    Name: {{student.name}}
+	    900#: {{student.number}}
+	  </div>
+	</div>
+      </div>
+    </span>
+    <span v-if="sections_selected">
+      <div v-for="section in sections">  
+        <li>Semester: {{section.semester}} 
+	    Number: {{section.number}} 
+	    Room Number: {{section.room}}
+	  <div v-for="course in courses">
+	    <span v-if="section.course_id === course.id">
+	    Course: {{course.name}}
+	    </span>
+	  </div>
+	</li>
+      </div>
+    </span>    
+  </ul>
+</div>
+
+<script type="text/javascript">
+var ItemsVue = new Vue({
+    el: '#Itemlist',
+    data: { courses_selected:false,
+	sections_selected:false,
+	students_selected:false,
+	courses: [],
+	students: [],
+	sections: [] },
+    mounted: function() {
+        axios.get('http://localhost:3000/courses.json')
+             .then(response => { this.courses = response.data })
+             .catch(error => { console.log(error); });
+        axios.get('http://localhost:3000/students.json')
+            .then(response => { this.students = response.data })
+            .catch(error => { console.log(error); });
+        axios.get('http://localhost:3000/sections.json')
+            .then(response => { this.sections = response.data })
+            .catch(error => { console.log(error); });
+    }
+});
+</script>
+
+</body>
+</html>
